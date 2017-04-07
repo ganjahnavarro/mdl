@@ -9,4 +9,9 @@ import core.model.Unit;
 @Transactional
 public class UnitRepository extends AbstractRepository<Unit> {
 
+	@Override
+	protected String getEntityName() {
+		return Unit.ENTITY_NAME;
+	}
+
 }

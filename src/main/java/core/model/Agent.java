@@ -13,7 +13,7 @@ public class Agent extends Record {
 	private static final long serialVersionUID = -6577286636309267578L;
 	public static final String ENTITY_NAME = "agent";
 
-	@NotEmpty
+	@NotEmpty(message = "Name is required")
 	private String name;
 
 	@Column(columnDefinition = "text")

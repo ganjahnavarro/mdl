@@ -20,5 +20,8 @@ public interface AgentMapper {
 	
 	@IterableMapping(dateFormat = "MM/dd/yyyy HH:mm")
 	List<AgentData> toData(List<Agent> items);
+	
+	@Mapping(source = "modifiedDate", target = "modifiedDate", dateFormat = "MM/dd/yyyy HH:mm")
+	Agent fromData(AgentData data);
 
 }
