@@ -15,8 +15,8 @@ import core.model.Agent;
 public class AgentRepository extends AbstractRepository<Agent> {
 	
 	@SuppressWarnings("unchecked")
-	public List<Agent> findFilteredItems(String orderBy, Integer pageSize, Integer pageOffset, String filter) {
-		Criteria criteria = getPagedItemsCriteria(orderBy, pageSize, pageOffset);
+	public List<Agent> findFilteredItems(String filter, Integer pageSize, Integer pageOffset, String orderBy) {
+		Criteria criteria = getPagedItemsCriteria(pageSize, pageOffset, orderBy);
 		
 		if (filter != null && !filter.isEmpty()) {
 			criteria.add(Restrictions.ilike("name", filter, MatchMode.START));
@@ -24,7 +24,7 @@ public class AgentRepository extends AbstractRepository<Agent> {
 		
 		return criteria.list();
 	}
-
+	
 	@Override
 	protected String getEntityName() {
 		return Agent.ENTITY_NAME;

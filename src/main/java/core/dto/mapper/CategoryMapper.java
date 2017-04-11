@@ -8,21 +8,21 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import core.dto.AgentData;
-import core.model.Agent;
+import core.dto.CategoryData;
+import core.model.Category;
 
 @Mapper
-public interface AgentMapper {
+public interface CategoryMapper {
 
-	AgentMapper INSTANCE = Mappers.getMapper(AgentMapper.class);
+	CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
 
 	@Mapping(target = "modifiedDate", source = "modifiedDate", dateFormat = "MM/dd/yyyy HH:mm")
-	AgentData toData(Agent agent);
+	CategoryData toData(Category category);
 	
 	@IterableMapping(dateFormat = "MM/dd/yyyy HH:mm")
-	List<AgentData> toData(List<Agent> agents);
+	List<CategoryData> toData(List<Category> categorys);
 	
 	@InheritInverseConfiguration
-	Agent fromData(AgentData agentData);
+	Category fromData(CategoryData categoryData);
 
 }

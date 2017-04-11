@@ -1,23 +1,18 @@
-package core.model;
+package core.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Transient;
+import java.math.BigDecimal;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
-@Entity(name = Agent.ENTITY_NAME)
-public class Agent extends Record {
-
-	private static final long serialVersionUID = -6577286636309267578L;
-	public static final String ENTITY_NAME = "agent";
+public class CustomerData extends RecordData {
 
 	private String name;
+	private AgentData agent;
+
 	private String address;
 	private String contact;
+	private String fax;
 	private String tin;
-	
-	@NotEmpty(message = "Name is required")
+	private BigDecimal commission;
+
 	public String getName() {
 		return name;
 	}
@@ -26,7 +21,6 @@ public class Agent extends Record {
 		this.name = name;
 	}
 
-	@Column(columnDefinition = "text")
 	public String getAddress() {
 		return address;
 	}
@@ -43,6 +37,14 @@ public class Agent extends Record {
 		this.contact = contact;
 	}
 
+	public String getFax() {
+		return fax;
+	}
+
+	public void setFax(String fax) {
+		this.fax = fax;
+	}
+
 	public String getTin() {
 		return tin;
 	}
@@ -51,10 +53,20 @@ public class Agent extends Record {
 		this.tin = tin;
 	}
 
-	@Transient
-	@Override
-	public String getDisplayString() {
-		return getName();
+	public BigDecimal getCommission() {
+		return commission;
+	}
+
+	public void setCommission(BigDecimal commission) {
+		this.commission = commission;
+	}
+
+	public AgentData getAgent() {
+		return agent;
+	}
+
+	public void setAgent(AgentData agent) {
+		this.agent = agent;
 	}
 
 }

@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import core.dto.AgentData;
-import core.dto.mapper.AgentMapper;
-import core.model.Agent;
-import core.service.AgentService;
+import core.dto.SupplierData;
+import core.dto.mapper.SupplierMapper;
+import core.model.Supplier;
+import core.service.SupplierService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/agent")
-public class AgentController {
+@RequestMapping("/supplier")
+public class SupplierController {
 	
-	@Autowired private AgentService service;
+	@Autowired private SupplierService service;
 	
-	private AgentMapper MAPPER = AgentMapper.INSTANCE;
+	private SupplierMapper MAPPER = SupplierMapper.INSTANCE;
 	
 	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-    public List<AgentData> list(
+    public List<SupplierData> list(
     		@RequestParam(value = "filter", required = false) String filter,
     		@RequestParam(value = "pageSize", required = false) Integer pageSize,
     		@RequestParam(value = "pageOffset", required = false) Integer pageOffset,
@@ -35,15 +35,15 @@ public class AgentController {
     }
 	
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-    public AgentData create(@RequestBody AgentData agentData) {
-		Agent agent = MAPPER.fromData(agentData);
-		return MAPPER.toData((Agent) service.save(agent));
+    public SupplierData create(@RequestBody SupplierData supplierData) {
+		Supplier supplier = MAPPER.fromData(supplierData);
+		return MAPPER.toData((Supplier) service.save(supplier));
     }
 	
 	@RequestMapping(value = "/", method = RequestMethod.PATCH)
-    public AgentData update(@RequestBody AgentData agentData) {
-		Agent agent = MAPPER.fromData(agentData);
-		return MAPPER.toData((Agent) service.update(agent));
+    public SupplierData update(@RequestBody SupplierData supplierData) {
+		Supplier supplier = MAPPER.fromData(supplierData);
+		return MAPPER.toData((Supplier) service.update(supplier));
     }
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

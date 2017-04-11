@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import core.dto.AgentData;
-import core.dto.mapper.AgentMapper;
-import core.model.Agent;
-import core.service.AgentService;
+import core.dto.CategoryData;
+import core.dto.mapper.CategoryMapper;
+import core.model.Category;
+import core.service.CategoryService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/agent")
-public class AgentController {
+@RequestMapping("/category")
+public class CategoryController {
 	
-	@Autowired private AgentService service;
+	@Autowired private CategoryService service;
 	
-	private AgentMapper MAPPER = AgentMapper.INSTANCE;
+	private CategoryMapper MAPPER = CategoryMapper.INSTANCE;
 	
 	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-    public List<AgentData> list(
+    public List<CategoryData> list(
     		@RequestParam(value = "filter", required = false) String filter,
     		@RequestParam(value = "pageSize", required = false) Integer pageSize,
     		@RequestParam(value = "pageOffset", required = false) Integer pageOffset,
@@ -35,15 +35,15 @@ public class AgentController {
     }
 	
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-    public AgentData create(@RequestBody AgentData agentData) {
-		Agent agent = MAPPER.fromData(agentData);
-		return MAPPER.toData((Agent) service.save(agent));
+    public CategoryData create(@RequestBody CategoryData categoryData) {
+		Category category = MAPPER.fromData(categoryData);
+		return MAPPER.toData((Category) service.save(category));
     }
 	
 	@RequestMapping(value = "/", method = RequestMethod.PATCH)
-    public AgentData update(@RequestBody AgentData agentData) {
-		Agent agent = MAPPER.fromData(agentData);
-		return MAPPER.toData((Agent) service.update(agent));
+    public CategoryData update(@RequestBody CategoryData categoryData) {
+		Category category = MAPPER.fromData(categoryData);
+		return MAPPER.toData((Category) service.update(category));
     }
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

@@ -7,15 +7,15 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import core.model.Agent;
+import core.model.Supplier;
 import core.repository.AbstractRepository;
-import core.repository.AgentRepository;
+import core.repository.SupplierRepository;
 
 @Service
 @Transactional
-public class AgentService extends AbstractService {
+public class SupplierService extends AbstractService {
 	
-	@Autowired private AgentRepository repository;
+	@Autowired private SupplierRepository repository;
 	
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -23,7 +23,7 @@ public class AgentService extends AbstractService {
 		return repository;
 	}
 	
-	public List<Agent> findFilteredItems(String filter, Integer pageSize, Integer pageOffset, String orderBy) {
+	public List<Supplier> findFilteredItems(String filter, Integer pageSize, Integer pageOffset, String orderBy) {
 		return repository.findFilteredItems(filter, pageSize, pageOffset, orderBy);
 	}
 

@@ -8,14 +8,14 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import core.model.Unit;
+import core.model.Supplier;
 
 @Repository
 @Transactional
-public class UnitRepository extends AbstractRepository<Unit> {
+public class SupplierRepository extends AbstractRepository<Supplier> {
 	
 	@SuppressWarnings("unchecked")
-	public List<Unit> findFilteredItems(String filter, Integer pageSize, Integer pageOffset, String orderBy) {
+	public List<Supplier> findFilteredItems(String filter, Integer pageSize, Integer pageOffset, String orderBy) {
 		Criteria criteria = getPagedItemsCriteria(pageSize, pageOffset, orderBy);
 		
 		if (filter != null && !filter.isEmpty()) {
@@ -24,10 +24,10 @@ public class UnitRepository extends AbstractRepository<Unit> {
 		
 		return criteria.list();
 	}
-
+	
 	@Override
 	protected String getEntityName() {
-		return Unit.ENTITY_NAME;
+		return Supplier.ENTITY_NAME;
 	}
 
 }
