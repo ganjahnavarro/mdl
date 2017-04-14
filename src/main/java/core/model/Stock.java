@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -42,6 +43,7 @@ public class Stock extends Record {
 		this.description = description;
 	}
 
+	@NotNull
 	public BigDecimal getCost() {
 		return cost;
 	}
@@ -50,6 +52,7 @@ public class Stock extends Record {
 		this.cost = cost;
 	}
 
+	@NotNull
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -66,6 +69,7 @@ public class Stock extends Record {
 		this.onHand = onHand;
 	}
 
+	@NotNull
 	@ManyToOne(targetEntity = Unit.class)
 	@JoinColumn(name = "unitId")
 	public Unit getUnit() {
@@ -76,6 +80,7 @@ public class Stock extends Record {
 		this.unit = unit;
 	}
 
+	@NotNull
 	@ManyToOne(targetEntity = Category.class)
 	@JoinColumn(name = "categoryId")
 	public Category getCategory() {

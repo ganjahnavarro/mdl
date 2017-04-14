@@ -63,8 +63,7 @@ public class Supplier extends Record {
 	@Transient
 	@Override
 	public String getDisplayString() {
-		// TODO Auto-generated method stub
-		return null;
+		return getName();
 	}
 
 }
