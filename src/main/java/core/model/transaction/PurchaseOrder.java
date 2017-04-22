@@ -27,7 +27,7 @@ public class PurchaseOrder extends Record {
 	private Date date;
 	private String remarks;
 	
-	private Set<PurchaseOrderItem> list;
+	private Set<PurchaseOrderItem> items;
 
 	@NotNull
 	public String getDocumentNo() {
@@ -73,12 +73,13 @@ public class PurchaseOrder extends Record {
 	}
 
 	@OneToMany(targetEntity = PurchaseOrderItem.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "purchaseOrder", orphanRemoval = true)
-	public Set<PurchaseOrderItem> getList() {
-		return list;
+	public Set<PurchaseOrderItem> getItems() {
+		return items;
 	}
 
-	public void setList(Set<PurchaseOrderItem> list) {
-		this.list = list;
+	public void setItems(Set<PurchaseOrderItem> items) {
+		this.items = items;
 	}
+	
 
 }

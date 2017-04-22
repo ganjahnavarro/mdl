@@ -2,16 +2,12 @@ package core.dto.transaction;
 
 import java.math.BigDecimal;
 
-import core.model.Stock;
-import core.model.transaction.PurchaseOrder;
+import core.dto.StockData;
 
 public class PurchaseOrderItemData {
 
 	private Long id;
-
-	private Stock stock;
-	private PurchaseOrder purchaseOrder;
-
+	private StockData stock;
 	private Integer quantity;
 	private BigDecimal price;
 
@@ -23,20 +19,12 @@ public class PurchaseOrderItemData {
 		this.id = id;
 	}
 
-	public Stock getStock() {
+	public StockData getStock() {
 		return stock;
 	}
 
-	public void setStock(Stock stock) {
+	public void setStock(StockData stock) {
 		this.stock = stock;
-	}
-
-	public PurchaseOrder getPurchaseOrder() {
-		return purchaseOrder;
-	}
-
-	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
-		this.purchaseOrder = purchaseOrder;
 	}
 
 	public Integer getQuantity() {

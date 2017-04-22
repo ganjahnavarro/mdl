@@ -4,18 +4,17 @@ import java.util.Date;
 import java.util.Set;
 
 import core.dto.RecordData;
-import core.model.Supplier;
-import core.model.transaction.PurchaseOrderItem;
+import core.dto.SupplierData;
 
 public class PurchaseOrderData extends RecordData {
 
 	private String documentNo;
-	private Supplier supplier;
+	private SupplierData supplier;
 
 	private Date date;
 	private String remarks;
 
-	private Set<PurchaseOrderItem> list;
+	private Set<PurchaseOrderItemData> items;
 
 	public String getDocumentNo() {
 		return documentNo;
@@ -25,11 +24,11 @@ public class PurchaseOrderData extends RecordData {
 		this.documentNo = documentNo;
 	}
 
-	public Supplier getSupplier() {
+	public SupplierData getSupplier() {
 		return supplier;
 	}
 
-	public void setSupplier(Supplier supplier) {
+	public void setSupplier(SupplierData supplier) {
 		this.supplier = supplier;
 	}
 
@@ -49,12 +48,12 @@ public class PurchaseOrderData extends RecordData {
 		this.remarks = remarks;
 	}
 
-	public Set<PurchaseOrderItem> getList() {
-		return list;
+	public Set<PurchaseOrderItemData> getItems() {
+		return items;
 	}
 
-	public void setList(Set<PurchaseOrderItem> list) {
-		this.list = list;
+	public void setItems(Set<PurchaseOrderItemData> items) {
+		this.items = items;
 	}
 
 }
