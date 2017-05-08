@@ -30,11 +30,22 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
 	public PurchaseOrder findPurchaseOrder(Integer pageOffset, String orderBy) {
 		Criteria criteria = getPagedItemsCriteria(1, pageOffset, orderBy);
 		PurchaseOrder purchaseOrder = (PurchaseOrder) criteria.uniqueResult();
-		
+		initializePurchaseOrder(purchaseOrder);
+		return purchaseOrder;
+	}
+
+	public PurchaseOrder findByDocumentNo(String documentNo) {
+		Criteria criteria = getDefaultCriteria();
+		criteria.add(Restrictions.eq("documentNo", documentNo));
+		PurchaseOrder purchaseOrder = (PurchaseOrder) criteria.uniqueResult();
+		initializePurchaseOrder(purchaseOrder);
+		return purchaseOrder;
+	}
+	
+	private void initializePurchaseOrder(PurchaseOrder purchaseOrder) {
 		if (purchaseOrder != null) {
 			Hibernate.initialize(purchaseOrder.getItems());
 		}
-		return purchaseOrder;
 	}
 	
 	@Override

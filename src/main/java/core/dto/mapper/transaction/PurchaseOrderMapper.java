@@ -17,7 +17,7 @@ public interface PurchaseOrderMapper {
 
 	PurchaseOrderMapper INSTANCE = Mappers.getMapper(PurchaseOrderMapper.class);
 	
-	
+	@Mapping(target = "date", source = "date", dateFormat = "MM/dd/yyyy")
 	@Mapping(target = "modifiedDate", source = "modifiedDate", dateFormat = "MM/dd/yyyy HH:mm")
 	PurchaseOrderData toData(PurchaseOrder purchaseOrder);
 	

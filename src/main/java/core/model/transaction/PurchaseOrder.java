@@ -29,7 +29,7 @@ public class PurchaseOrder extends Record {
 	
 	private Set<PurchaseOrderItem> items;
 
-	@NotNull
+	@NotNull(message = "Document No. is required")
 	public String getDocumentNo() {
 		return documentNo;
 	}
@@ -38,7 +38,7 @@ public class PurchaseOrder extends Record {
 		this.documentNo = documentNo;
 	}
 
-	@NotNull
+	@NotNull(message = "Supplier is required")
 	@ManyToOne(targetEntity = Supplier.class)
 	@JoinColumn(name = "supplierId")
 	public Supplier getSupplier() {
@@ -49,7 +49,7 @@ public class PurchaseOrder extends Record {
 		this.supplier = supplier;
 	}
 
-	@NotNull
+	@NotNull(message = "Date is required")
 	public Date getDate() {
 		return date;
 	}

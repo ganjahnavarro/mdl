@@ -24,6 +24,10 @@ public class PurchaseOrderService extends AbstractService {
 		return repository;
 	}
 	
+	public PurchaseOrder findByDocumentNo(String documentNo) {
+		return repository.findByDocumentNo(documentNo);
+	}
+	
 	public List<PurchaseOrder> findFilteredItems(String filter, Integer pageSize, Integer pageOffset, String orderBy) {
 		return repository.findFilteredItems(filter, pageSize, pageOffset, orderBy);
 	}

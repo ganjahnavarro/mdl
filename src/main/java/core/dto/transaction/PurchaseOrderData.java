@@ -1,6 +1,5 @@
 package core.dto.transaction;
 
-import java.util.Date;
 import java.util.Set;
 
 import core.dto.RecordData;
@@ -11,7 +10,7 @@ public class PurchaseOrderData extends RecordData {
 	private String documentNo;
 	private SupplierData supplier;
 
-	private Date date;
+	private String date;
 	private String remarks;
 
 	private Set<PurchaseOrderItemData> items;
@@ -32,11 +31,11 @@ public class PurchaseOrderData extends RecordData {
 		this.supplier = supplier;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

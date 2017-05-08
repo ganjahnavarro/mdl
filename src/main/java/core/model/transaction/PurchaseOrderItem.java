@@ -37,7 +37,7 @@ public class PurchaseOrderItem implements Serializable {
 		this.id = id;
 	}
 
-	@NotNull
+	@NotNull(message = "Stock is required")
 	@ManyToOne(targetEntity = Stock.class)
 	@JoinColumn(name = "stockId")
 	public Stock getStock() {
@@ -48,7 +48,7 @@ public class PurchaseOrderItem implements Serializable {
 		this.stock = stock;
 	}
 
-	@NotNull
+	@NotNull(message = "Purchase Order is required")
 	@ManyToOne(targetEntity = PurchaseOrder.class)
 	@JoinColumn(name = "purchaseOrderId")
 	public PurchaseOrder getPurchaseOrder() {
@@ -59,7 +59,7 @@ public class PurchaseOrderItem implements Serializable {
 		this.purchaseOrder = purchaseOrder;
 	}
 
-	@NotNull
+	@NotNull(message = "Quantity is required")
 	public Integer getQuantity() {
 		return quantity;
 	}
@@ -68,7 +68,7 @@ public class PurchaseOrderItem implements Serializable {
 		this.quantity = quantity;
 	}
 
-	@NotNull
+	@NotNull(message = "Price is required")
 	public BigDecimal getPrice() {
 		return price;
 	}
