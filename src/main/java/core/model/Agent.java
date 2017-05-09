@@ -2,9 +2,13 @@ package core.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.NotEmpty;
+
+import core.enums.AgentType;
 
 @Entity(name = Agent.ENTITY_NAME)
 public class Agent extends Record {
@@ -13,6 +17,7 @@ public class Agent extends Record {
 	public static final String ENTITY_NAME = "agent";
 
 	private String name;
+	private AgentType type;
 	private String address;
 	private String contact;
 	private String tin;
@@ -24,6 +29,16 @@ public class Agent extends Record {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Enumerated(EnumType.STRING)
+	@NotEmpty(message = "Type is required")
+	public AgentType getType() {
+		return type;
+	}
+
+	public void setType(AgentType type) {
+		this.type = type;
 	}
 
 	@Column(columnDefinition = "text")

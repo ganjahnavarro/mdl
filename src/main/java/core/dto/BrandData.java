@@ -1,6 +1,6 @@
 package core.dto;
 
-public class CategoryData extends RecordData {
+public class BrandData extends RecordData {
 	
 	private String name;
 	private String description;

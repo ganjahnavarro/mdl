@@ -5,11 +5,11 @@ import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-@Entity(name = Category.ENTITY_NAME)
-public class Category extends Record {
-
-	public static final String ENTITY_NAME = "category";
-	private static final long serialVersionUID = 5235716781507663078L;
+@Entity(name = Brand.ENTITY_NAME)
+public class Brand extends Record {
+	
+	public static final String ENTITY_NAME = "brand";
+	private static final long serialVersionUID = -1378470589548385896L;
 
 	private String name;
 	private String description;
