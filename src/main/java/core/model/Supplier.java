@@ -17,6 +17,8 @@ public class Supplier extends Record {
 	private String contact;
 	private String fax;
 	private String tin;
+	
+	private String terms;
 
 	@NotEmpty(message = "Name is required")
 	public String getName() {
@@ -58,6 +60,14 @@ public class Supplier extends Record {
 
 	public void setTin(String tin) {
 		this.tin = tin;
+	}
+	
+	public String getTerms() {
+		return terms;
+	}
+
+	public void setTerms(String terms) {
+		this.terms = terms;
 	}
 
 	@Transient

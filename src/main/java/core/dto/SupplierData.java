@@ -7,6 +7,8 @@ public class SupplierData extends RecordData {
 	private String contact;
 	private String fax;
 	private String tin;
+	
+	private String terms;
 
 	public String getName() {
 		return name;
@@ -48,4 +50,12 @@ public class SupplierData extends RecordData {
 		this.tin = tin;
 	}
 
+	public String getTerms() {
+		return terms;
+	}
+
+	public void setTerms(String terms) {
+		this.terms = terms;
+	}
+	
 }

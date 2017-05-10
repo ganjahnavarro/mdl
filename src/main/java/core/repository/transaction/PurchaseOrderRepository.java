@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,13 +28,30 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
 		return criteria.list();
 	}
 	
-	public PurchaseOrder findPurchaseOrder(Integer pageOffset, String orderBy) {
-		Criteria criteria = getPagedItemsCriteria(1, pageOffset, orderBy);
+	public PurchaseOrder findPurchaseOrder(String documentNo, boolean shouldGetNext) {
+		Criteria criteria = getDefaultCriteria();
+		criteria.setMaxResults(1);
+		
+		if (documentNo != null) {
+			if (shouldGetNext) {
+				criteria.add(Restrictions.gt("documentNo", documentNo));
+				criteria.addOrder(Order.asc("documentNo"));
+			} else {
+				criteria.add(Restrictions.lt("documentNo", documentNo));
+				criteria.addOrder(Order.desc("documentNo"));
+			}
+		}
+		
 		PurchaseOrder purchaseOrder = (PurchaseOrder) criteria.uniqueResult();
+		
+		if (purchaseOrder == null) {
+			return findByDocumentNo(documentNo);
+		}
+		
 		initializePurchaseOrder(purchaseOrder);
 		return purchaseOrder;
 	}
-
+	
 	public PurchaseOrder findByDocumentNo(String documentNo) {
 		Criteria criteria = getDefaultCriteria();
 		criteria.add(Restrictions.eq("documentNo", documentNo));

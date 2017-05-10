@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -32,7 +33,7 @@ public class Agent extends Record {
 	}
 	
 	@Enumerated(EnumType.STRING)
-	@NotEmpty(message = "Type is required")
+	@NotNull(message = "Type is required")
 	public AgentType getType() {
 		return type;
 	}

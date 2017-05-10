@@ -25,6 +25,7 @@ public class Stock extends Record {
 
 	private Unit unit;
 	private Category category;
+	private Brand brand;
 
 	@NotEmpty(message = "Name is required")
 	public String getName() {
@@ -85,6 +86,16 @@ public class Stock extends Record {
 	@JoinColumn(name = "categoryId")
 	public Category getCategory() {
 		return category;
+	}
+	
+	@ManyToOne(targetEntity = Brand.class)
+	@JoinColumn(name = "brandId")
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 
 	public void setCategory(Category category) {

@@ -12,6 +12,11 @@ public class CustomerData extends RecordData {
 	private String fax;
 	private String tin;
 	private BigDecimal commission;
+	
+	private String terms;
+	private String accountNumber;
+	private String homeAddress;
+	private String ownersName;
 
 	public String getName() {
 		return name;
@@ -69,4 +74,36 @@ public class CustomerData extends RecordData {
 		this.agent = agent;
 	}
 
+	public String getTerms() {
+		return terms;
+	}
+
+	public void setTerms(String terms) {
+		this.terms = terms;
+	}
+
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	public String getHomeAddress() {
+		return homeAddress;
+	}
+
+	public void setHomeAddress(String homeAddress) {
+		this.homeAddress = homeAddress;
+	}
+
+	public String getOwnersName() {
+		return ownersName;
+	}
+
+	public void setOwnersName(String ownersName) {
+		this.ownersName = ownersName;
+	}
+	
 }

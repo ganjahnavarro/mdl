@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import core.dto.StockData;
 import core.dto.mapper.StockMapper;
+import core.model.Brand;
 import core.model.Category;
 import core.model.Stock;
 import core.model.Unit;
+import core.service.BrandService;
 import core.service.CategoryService;
 import core.service.StockService;
 import core.service.UnitService;
@@ -28,6 +30,7 @@ public class StockController {
 	@Autowired private StockService stockService;
 	@Autowired private UnitService unitService;
 	@Autowired private CategoryService categoryService;
+	@Autowired private BrandService brandService;
 	
 	private StockMapper MAPPER = StockMapper.INSTANCE;
 	
@@ -68,6 +71,11 @@ public class StockController {
 		if (stockData.getCategory() != null && stockData.getCategory().getId() != null) {
 			Category category = (Category) categoryService.findById(stockData.getCategory().getId());
 			stock.setCategory(category);
+		}
+		
+		if (stockData.getBrand() != null && stockData.getBrand().getId() != null) {
+			Brand brand = (Brand) brandService.findById(stockData.getBrand().getId());
+			stock.setBrand(brand);
 		}
 	}
 

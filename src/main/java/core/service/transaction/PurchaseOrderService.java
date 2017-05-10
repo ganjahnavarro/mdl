@@ -32,8 +32,8 @@ public class PurchaseOrderService extends AbstractService {
 		return repository.findFilteredItems(filter, pageSize, pageOffset, orderBy);
 	}
 	
-	public PurchaseOrder findPurchaseOrder(Integer pageOffset, String orderBy) {
-		return repository.findPurchaseOrder(pageOffset, orderBy);
+	public PurchaseOrder findPurchaseOrder(String documentNo, Boolean shouldGetNext) {
+		return repository.findPurchaseOrder(documentNo, shouldGetNext);
 	}
 
 }

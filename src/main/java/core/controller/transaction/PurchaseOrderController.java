@@ -1,7 +1,5 @@
 package core.controller.transaction;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,31 +27,24 @@ public class PurchaseOrderController {
 	
 	private PurchaseOrderMapper MAPPER = PurchaseOrderMapper.INSTANCE;
 	
-	@RequestMapping(value = "/view", method = RequestMethod.GET)
-    public PurchaseOrderData view(
-    		@RequestParam(value = "pageOffset", required = false) Integer pageOffset,
-    		@RequestParam(value = "orderedBy", required = false) String orderedBy) {
-		PurchaseOrder purchaseOrder = purchaseOrderService.findPurchaseOrder(pageOffset, orderedBy);
+	@RequestMapping(value = "/previous", method = RequestMethod.GET)
+	public PurchaseOrderData previous(@RequestParam(required = false) String documentNo) {
+		PurchaseOrder purchaseOrder = purchaseOrderService.findPurchaseOrder(documentNo, false);
 		return MAPPER.toData(purchaseOrder);
     }
 	
-	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-    public List<PurchaseOrderData> list(
-    		@RequestParam(value = "filter", required = false) String filter,
-    		@RequestParam(value = "pageSize", required = false) Integer pageSize,
-    		@RequestParam(value = "pageOffset", required = false) Integer pageOffset,
-    		@RequestParam(value = "orderedBy", required = false) String orderedBy) {
-		List<PurchaseOrder> list = purchaseOrderService.findFilteredItems(filter, pageSize, pageOffset, orderedBy);
-		return MAPPER.toData(list);
+	@RequestMapping(value = "/next", method = RequestMethod.GET)
+    public PurchaseOrderData next(@RequestParam(required = false) String documentNo) {
+		PurchaseOrder purchaseOrder = purchaseOrderService.findPurchaseOrder(documentNo, true);
+		return MAPPER.toData(purchaseOrder);
     }
+	
 	
 	@RequestMapping(value = "/", method = RequestMethod.POST)
     public PurchaseOrderData create(@RequestBody PurchaseOrderData purchaseOrderData) {
 		PurchaseOrder purchaseOrder = MAPPER.fromData(purchaseOrderData);
-		
 		setDefaultValues(purchaseOrder);
 		validateExistingDocumentNo(purchaseOrder.getDocumentNo(), null);
-		
 		return MAPPER.toData((PurchaseOrder) purchaseOrderService.save(purchaseOrder));
     }
 
@@ -61,10 +52,8 @@ public class PurchaseOrderController {
 	@RequestMapping(value = "/", method = RequestMethod.PATCH)
     public PurchaseOrderData update(@RequestBody PurchaseOrderData purchaseOrderData) {
 		PurchaseOrder purchaseOrder = MAPPER.fromData(purchaseOrderData);
-		
 		setDefaultValues(purchaseOrder);
 		validateExistingDocumentNo(purchaseOrder.getDocumentNo(), purchaseOrder.getId());
-		
 		return MAPPER.toData((PurchaseOrder) purchaseOrderService.update(purchaseOrder));
     }
 	
@@ -93,7 +82,7 @@ public class PurchaseOrderController {
 			
 			if (existing != null) {
 				boolean newTransaction = purchaseOrderId == null;
-				boolean notSameTransaction = !purchaseOrderId.equals(existing.getId());  
+				boolean notSameTransaction = !existing.getId().equals(purchaseOrderId);  
 				
 				if (newTransaction || notSameTransaction) {
 					throw new IllegalArgumentException("Document No. " + documentNo + " already exists.");

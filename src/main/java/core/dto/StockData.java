@@ -2,9 +2,6 @@ package core.dto;
 
 import java.math.BigDecimal;
 
-import core.model.Category;
-import core.model.Unit;
-
 public class StockData extends RecordData {
 
 	private String name;
@@ -14,8 +11,9 @@ public class StockData extends RecordData {
 	private BigDecimal price;
 	private Long onHand;
 
-	private Unit unit;
-	private Category category;
+	private UnitData unit;
+	private CategoryData category;
+	private BrandData brand;
 
 	public String getName() {
 		return name;
@@ -57,20 +55,28 @@ public class StockData extends RecordData {
 		this.onHand = onHand;
 	}
 
-	public Unit getUnit() {
+	public UnitData getUnit() {
 		return unit;
 	}
 
-	public void setUnit(Unit unit) {
+	public void setUnit(UnitData unit) {
 		this.unit = unit;
 	}
 
-	public Category getCategory() {
+	public CategoryData getCategory() {
 		return category;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(CategoryData category) {
 		this.category = category;
+	}
+
+	public BrandData getBrand() {
+		return brand;
+	}
+
+	public void setBrand(BrandData brand) {
+		this.brand = brand;
 	}
 
 }

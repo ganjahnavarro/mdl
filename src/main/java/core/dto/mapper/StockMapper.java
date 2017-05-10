@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
 import core.dto.StockData;
 import core.model.Stock;
 
-@Mapper(uses = { CategoryMapper.class, UnitMapper.class })
+@Mapper(uses = { CategoryMapper.class, UnitMapper.class, BrandMapper.class })
 public interface StockMapper {
 
 	StockMapper INSTANCE = Mappers.getMapper(StockMapper.class);

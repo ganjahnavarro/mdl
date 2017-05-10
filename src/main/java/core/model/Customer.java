@@ -24,6 +24,11 @@ public class Customer extends Record {
 	private String fax;
 	private String tin;
 	private BigDecimal commission;
+	
+	private String terms;
+	private String accountNumber;
+	private String homeAddress;
+	private String ownersName;
 
 	@NotEmpty(message = "Name is required")
 	public String getName() {
@@ -84,12 +89,49 @@ public class Customer extends Record {
 	public void setCommission(BigDecimal commission) {
 		this.commission = commission;
 	}
+	
 
+	public String getTerms() {
+		return terms;
+	}
+
+	public void setTerms(String terms) {
+		this.terms = terms;
+	}
+
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	public String getHomeAddress() {
+		return homeAddress;
+	}
+
+	public void setHomeAddress(String homeAddress) {
+		this.homeAddress = homeAddress;
+	}
+
+	public String getOwnersName() {
+		return ownersName;
+	}
+
+	public void setOwnersName(String ownersName) {
+		this.ownersName = ownersName;
+	}
 
 	@Transient
 	@Override
 	public String getDisplayString() {
 		return getName();
+	}
+	
+	@Transient
+	public String getOfficeAddress() {
+		return getAddress();
 	}
 
 }
