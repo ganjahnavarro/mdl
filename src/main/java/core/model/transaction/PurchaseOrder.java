@@ -1,5 +1,6 @@
 package core.model.transaction;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
@@ -26,6 +27,10 @@ public class PurchaseOrder extends Record {
 
 	private Date date;
 	private String remarks;
+	
+	private BigDecimal discount1;
+	private BigDecimal discount2;
+	private BigDecimal discount3;
 	
 	private Set<PurchaseOrderItem> items;
 
@@ -65,6 +70,30 @@ public class PurchaseOrder extends Record {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+	
+	public BigDecimal getDiscount1() {
+		return discount1;
+	}
+
+	public void setDiscount1(BigDecimal discount1) {
+		this.discount1 = discount1;
+	}
+
+	public BigDecimal getDiscount2() {
+		return discount2;
+	}
+
+	public void setDiscount2(BigDecimal discount2) {
+		this.discount2 = discount2;
+	}
+
+	public BigDecimal getDiscount3() {
+		return discount3;
+	}
+
+	public void setDiscount3(BigDecimal discount3) {
+		this.discount3 = discount3;
+	}
 
 	@Transient
 	@Override
@@ -80,6 +109,5 @@ public class PurchaseOrder extends Record {
 	public void setItems(Set<PurchaseOrderItem> items) {
 		this.items = items;
 	}
-	
 
 }
