@@ -95,12 +95,6 @@ public class PurchaseOrder extends Record {
 		this.discount3 = discount3;
 	}
 
-	@Transient
-	@Override
-	public String getDisplayString() {
-		return "Purchase Order No. " + getDocumentNo();
-	}
-
 	@OneToMany(targetEntity = PurchaseOrderItem.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "purchaseOrder", orphanRemoval = true)
 	public Set<PurchaseOrderItem> getItems() {
 		return items;
@@ -109,5 +103,21 @@ public class PurchaseOrder extends Record {
 	public void setItems(Set<PurchaseOrderItem> items) {
 		this.items = items;
 	}
-
+	
+	@Transient
+	@Override
+	public String getDisplayString() {
+		return "Purchase Order No. " + getDocumentNo();
+	}
+	
+	@Transient
+	public BigDecimal getAmount() {
+		BigDecimal amount = BigDecimal.ZERO;
+		
+		for(PurchaseOrderItem item : items) {
+			amount = amount.add(item.getAmount());
+		}
+		return amount;
+	}
+	
 }

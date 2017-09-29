@@ -105,7 +105,9 @@ public class Stock extends Record {
 	@Transient
 	@Override
 	public String getDisplayString() {
-		return getName();
+		return getCategory().getDisplayString() + " / " + getName() + " / "
+				+ (getDescription() != null ? getDescription() + " / " : "")
+				+ getBrand().getDisplayString();
 	}
 
 }
