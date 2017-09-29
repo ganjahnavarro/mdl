@@ -1,5 +1,7 @@
 package core.repository.transaction;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -16,6 +18,32 @@ import core.repository.AbstractRepository;
 @Repository
 @Transactional
 public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
+	
+	@SuppressWarnings("unchecked")
+	public List<SalesOrder> findFilteredItems(Long customerId, Date startDate, Date endDate) {
+		Criteria criteria = getOrderedCriteria("date");
+		if (customerId != null) {
+			criteria.add(Restrictions.eq("customer.id", customerId));
+		}
+		
+		if (startDate != null) {
+			criteria.add(Restrictions.ge("date", startDate));
+		}
+		
+		if (endDate != null) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(endDate);
+			calendar.add(Calendar.DATE, 1);
+			criteria.add(Restrictions.lt("date", calendar.getTime()));
+		}
+		
+		List<SalesOrder> salesOrders = criteria.list();
+		for (SalesOrder salesOrder : salesOrders) {
+			initializeSalesOrder(salesOrder);
+		}
+		
+		return salesOrders;
+	}
 	
 	@SuppressWarnings("unchecked")
 	public List<SalesOrder> findFilteredItems(String filter, Integer pageSize, Integer pageOffset, String orderBy) {

@@ -1,57 +1,48 @@
 package core.reports;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.core.env.Environment;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.draw.DottedLineSeparator;
 
 public abstract class ReportGenerator {
 	
 	private ReportData[] values;
 	
-	protected final Font TR18B = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
-	protected final Font TR10B = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD);
-	protected final Font TR9B = new Font(Font.FontFamily.TIMES_ROMAN, 9, Font.BOLD);
-	
-	protected final Font TR10 = new Font(Font.FontFamily.TIMES_ROMAN, 10);
-	protected final Font TR9 = new Font(Font.FontFamily.TIMES_ROMAN, 9);
-	protected final Font TR8 = new Font(Font.FontFamily.TIMES_ROMAN, 8);
-	
 	protected final Format AMOUNT_FORMATTER = new DecimalFormat("#,##0.00"); 
+	protected final DateFormat DATE_FORMATTER = new SimpleDateFormat("MM/dd/yyyy");
 	
-	protected abstract void addBody(PdfWriter writer, Document document) throws DocumentException;
+	protected abstract void addBody(PdfWriter writer, Document document) throws DocumentException, ParseException;
 	protected abstract Environment getEnvironment();
 
-	public void addContent(PdfWriter writer, Document document) throws DocumentException {
+	public void addContent(PdfWriter writer, Document document) throws DocumentException, ParseException {
 		addHeader(writer, document);
 		addBody(writer, document);
 		addFooter(writer, document);
 	}
 	
+	public Document newDocumentInstance() {
+		return new Document(PageSize.A4, 0, 0, 20, 20);
+	}
+	
 	protected void addHeader(PdfWriter writer, Document document) throws DocumentException {
-		Paragraph preface = new Paragraph();
-
-        preface.add(new Paragraph(getProperty("company.name").toUpperCase(), TR18B));
-        preface.add(new Paragraph(getProperty("company.description"), TR9));
-        preface.add(new Paragraph(getProperty("company.address"), TR9));
-        addEmptyLine(preface, 1);
-        
-        String contactNo = "Telefax: " + getProperty("company.fax.no") + " - Cell.: " + getProperty("company.mobile.no");
-        preface.add(new Paragraph(contactNo, TR9));
-        addEmptyLine(preface, 1);
-        
-        preface.setAlignment(Element.ALIGN_CENTER);
-        preface.setLeading(0, 1);
-        document.add(preface);
+		
 	}
 	
 	protected void addFooter(PdfWriter writer, Document document) {
@@ -59,11 +50,11 @@ public abstract class ReportGenerator {
 	}
 	
 	protected PdfPCell createCell(Object value) {
-		return createCell(value, TR10);
+		return createCell(value, FontFactory.C9);
 	}
 	
 	protected PdfPCell createCellHeader(Object value) {
-		PdfPCell cell = createCell(value, TR10B);
+		PdfPCell cell = createCell(value, FontFactory.C10B);
 		cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 		cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 		return cell;
@@ -71,10 +62,10 @@ public abstract class ReportGenerator {
 	
 	protected PdfPCell createCell(Object value, Font font) {
 		Boolean isAmount = value instanceof BigDecimal;
+		Boolean isDate = value instanceof Date;
 		
-		if (isAmount) {
-			value = AMOUNT_FORMATTER.format(value);
-		}
+		value = isAmount ? AMOUNT_FORMATTER.format(value) : value;
+		value = isDate ? DATE_FORMATTER.format(value) : value;
 		
 		Paragraph paragraph = new Paragraph(nullSafe(value), font);
 		PdfPCell cell = new PdfPCell(paragraph);
@@ -95,7 +86,22 @@ public abstract class ReportGenerator {
 		return value != null ? String.valueOf(value) : "";
 	}
 	
-    protected static void addEmptyLine(Paragraph paragraph, int number) {
+	protected Long parseLong(Object value) {
+		return value != null ? Long.valueOf(value.toString()) : null;
+	}
+	
+	protected Date parseDate(Object value) throws ParseException {
+		return value != null ? DATE_FORMATTER.parse(value.toString()) : null;
+	}
+	
+	protected void addLineSeparator(Document document) throws DocumentException {
+		DottedLineSeparator lineSeparator = new DottedLineSeparator();
+		lineSeparator.setLineColor(BaseColor.LIGHT_GRAY);
+		lineSeparator.setGap(3);
+		document.add(lineSeparator);
+	}
+	
+    protected void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
         }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -74,17 +73,17 @@ public class SalesOrderReportGenerator extends TransactionReportGenerator {
 		PdfPTable table = new PdfPTable(6);
 		table.setWidthPercentage(90);
 		
-		table.setTotalWidth(new float[]{ 30, 45, 320.5f, 35, 50, 55 });
+		table.setTotalWidth(new float[]{ 32.5f, 40, 298, 40, 60f, 65f });
 		table.setLockedWidth(true);
 		
 		float itemsHeight = 580;
 		
-		table.addCell(createCellHeader("Qty"));
-        table.addCell(createCellHeader("Unit"));
-        table.addCell(createCellHeader("Description"));
-        table.addCell(createCellHeader("Disc"));
-        table.addCell(createCellHeader("Unit Price"));
-        table.addCell(createCellHeader("Amount"));
+		table.addCell(createCellHeader("QTY"));
+        table.addCell(createCellHeader("UNIT"));
+        table.addCell(createCellHeader("DESCRIPTION"));
+        table.addCell(createCellHeader("DISC"));
+        table.addCell(createCellHeader("UNIT PRICE"));
+        table.addCell(createCellHeader("AMOUNT"));
 
         for (SalesOrderItem item : salesOrder.getItems()) {
         	Stock stock = item.getStock();
@@ -126,15 +125,14 @@ public class SalesOrderReportGenerator extends TransactionReportGenerator {
         table.addCell(remarks);
         
         
-        PdfPCell totalLabel = createCell("TOTAL: ", TR8);
+        PdfPCell totalLabel = createCell("TOTAL: ", FontFactory.C8);
         totalLabel.setFixedHeight(18f);
         totalLabel.setBorder(Rectangle.LEFT | Rectangle.RIGHT | Rectangle.TOP);
         totalLabel.setVerticalAlignment(Element.ALIGN_BOTTOM);
         table.addCell(totalLabel);
         
         
-        Font TR11B = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
-        PdfPCell totalAmount = createCell(salesOrder.getAmount(), TR11B);
+        PdfPCell totalAmount = createCell(salesOrder.getAmount(), FontFactory.C12B);
         totalAmount.setFixedHeight(27f);
         totalAmount.setVerticalAlignment(Element.ALIGN_TOP);
         totalAmount.setHorizontalAlignment(Element.ALIGN_CENTER);
