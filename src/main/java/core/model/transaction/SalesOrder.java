@@ -112,5 +112,15 @@ public class SalesOrder extends Record {
 	public String getDisplayString() {
 		return "Sales Order No. " + getDocumentNo();
 	}
+	
+	@Transient
+	public BigDecimal getAmount() {
+		BigDecimal amount = BigDecimal.ZERO;
+		
+		for(SalesOrderItem item : items) {
+			amount = amount.add(item.getAmount());
+		}
+		return amount;
+	}
 
 }

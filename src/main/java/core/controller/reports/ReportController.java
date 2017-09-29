@@ -24,6 +24,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import core.reports.PurchaseOrderReportGenerator;
 import core.reports.ReportData;
 import core.reports.ReportGenerator;
+import core.reports.SalesOrderReportGenerator;
 
 @CrossOrigin
 @RestController
@@ -32,13 +33,14 @@ public class ReportController {
 
 	private static Map<String, ReportGenerator> registry;
 
-	@Autowired
-	PurchaseOrderReportGenerator purchaseOrderReportGenerator;
+	@Autowired PurchaseOrderReportGenerator purchaseOrderReportGenerator;
+	@Autowired SalesOrderReportGenerator salesOrderReportGenerator;
 
 	@PostConstruct
 	public void initialize() {
 		registry = new ConcurrentHashMap<String, ReportGenerator>();
 		registry.put(PurchaseOrderReportGenerator.TYPE, purchaseOrderReportGenerator);
+		registry.put(SalesOrderReportGenerator.TYPE, salesOrderReportGenerator);
 	}
 
 	@RequestMapping(value = "reports/{type}", method = RequestMethod.POST)

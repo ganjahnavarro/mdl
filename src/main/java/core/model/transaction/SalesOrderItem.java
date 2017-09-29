@@ -2,6 +2,7 @@ package core.model.transaction;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import core.model.Stock;
@@ -93,6 +95,32 @@ public class SalesOrderItem implements Serializable {
 
 	public void setDiscount2(BigDecimal discount2) {
 		this.discount2 = discount2;
+	}
+	
+	@Transient
+	public BigDecimal getAmount() {
+		BigDecimal amount = getPrice();
+		
+		amount = getDiscount1() != null ? getDiscountedAmount(amount, getDiscount1()) : amount;
+		amount = getDiscount2() != null ? getDiscountedAmount(amount, getDiscount2()) : amount;
+		
+		return amount
+				.multiply(BigDecimal.valueOf(getQuantity()))
+				.setScale(2, RoundingMode.HALF_UP);
+	}
+	
+	@Transient
+	private BigDecimal getDiscountedAmount(BigDecimal amount, BigDecimal discount) {
+		RoundingMode roundingMode = RoundingMode.HALF_UP;
+		
+		BigDecimal dividend = BigDecimal.valueOf(100).subtract(discount);
+		BigDecimal multiplicand = dividend
+				.divide(BigDecimal.valueOf(100), roundingMode)
+				.setScale(2, roundingMode);
+		
+		return amount
+				.multiply(multiplicand)
+				.setScale(2, roundingMode);
 	}
 
 }
