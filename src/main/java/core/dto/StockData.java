@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public class StockData extends RecordData {
 
 	private String name;
+	private String oem;
 	private String description;
 
 	private BigDecimal cost;
@@ -14,6 +15,7 @@ public class StockData extends RecordData {
 	private UnitData unit;
 	private CategoryData category;
 	private BrandData brand;
+	private SupplierData supplier;
 
 	public String getName() {
 		return name;
@@ -21,6 +23,14 @@ public class StockData extends RecordData {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getOem() {
+		return oem;
+	}
+
+	public void setOem(String oem) {
+		this.oem = oem;
 	}
 
 	public String getDescription() {
@@ -77,6 +87,14 @@ public class StockData extends RecordData {
 
 	public void setBrand(BrandData brand) {
 		this.brand = brand;
+	}
+
+	public SupplierData getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(SupplierData supplier) {
+		this.supplier = supplier;
 	}
 
 }

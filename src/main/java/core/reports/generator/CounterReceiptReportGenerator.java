@@ -1,4 +1,4 @@
-package core.reports;
+package core.reports.generator;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -22,6 +22,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import core.model.Customer;
 import core.model.transaction.SalesOrder;
+import core.reports.FontFactory;
+import core.reports.ReportGenerator;
 import core.service.CustomerService;
 import core.service.transaction.SalesOrderService;
 

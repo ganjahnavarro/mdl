@@ -17,6 +17,7 @@ public class Stock extends Record {
 	private static final long serialVersionUID = 4117278518178986016L;
 
 	private String name;
+	private String oem;
 	private String description;
 
 	private BigDecimal cost;
@@ -26,6 +27,8 @@ public class Stock extends Record {
 	private Unit unit;
 	private Category category;
 	private Brand brand;
+	
+	private Supplier supplier;
 
 	@NotEmpty(message = "Name is required")
 	public String getName() {
@@ -34,6 +37,14 @@ public class Stock extends Record {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getOem() {
+		return oem;
+	}
+
+	public void setOem(String oem) {
+		this.oem = oem;
 	}
 
 	public String getDescription() {
@@ -70,7 +81,6 @@ public class Stock extends Record {
 		this.onHand = onHand;
 	}
 
-	@NotNull
 	@ManyToOne(targetEntity = Unit.class)
 	@JoinColumn(name = "unitId")
 	public Unit getUnit() {
@@ -81,11 +91,14 @@ public class Stock extends Record {
 		this.unit = unit;
 	}
 
-	@NotNull
 	@ManyToOne(targetEntity = Category.class)
 	@JoinColumn(name = "categoryId")
 	public Category getCategory() {
 		return category;
+	}
+	
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 	
 	@ManyToOne(targetEntity = Brand.class)
@@ -97,9 +110,15 @@ public class Stock extends Record {
 	public void setBrand(Brand brand) {
 		this.brand = brand;
 	}
+	
+	@ManyToOne(targetEntity = Supplier.class)
+	@JoinColumn(name = "supplierId")
+	public Supplier getSupplier() {
+		return supplier;
+	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
 	}
 
 	@Transient

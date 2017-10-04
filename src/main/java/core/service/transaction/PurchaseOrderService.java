@@ -1,5 +1,6 @@
 package core.service.transaction;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -30,6 +31,10 @@ public class PurchaseOrderService extends AbstractService {
 	
 	public List<PurchaseOrder> findFilteredItems(String filter, Integer pageSize, Integer pageOffset, String orderBy) {
 		return repository.findFilteredItems(filter, pageSize, pageOffset, orderBy);
+	}
+	
+	public List<PurchaseOrder> findFilteredItems(Long customerId, Date startDate, Date endDate) {
+		return repository.findFilteredItems(customerId, startDate, endDate);
 	}
 	
 	public PurchaseOrder findPurchaseOrder(String documentNo, Boolean shouldGetNext) {

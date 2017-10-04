@@ -7,6 +7,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -34,7 +36,7 @@ public class PurchaseOrder extends Record {
 	
 	private Set<PurchaseOrderItem> items;
 
-	@NotNull(message = "Document No. is required")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public String getDocumentNo() {
 		return documentNo;
 	}

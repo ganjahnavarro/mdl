@@ -1,4 +1,4 @@
-package core.reports;
+package core.reports.generator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -13,64 +13,65 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import core.model.Customer;
 import core.model.Stock;
-import core.model.Supplier;
-import core.model.transaction.PurchaseOrder;
-import core.model.transaction.PurchaseOrderItem;
-import core.service.transaction.PurchaseOrderService;
+import core.model.transaction.SalesOrder;
+import core.model.transaction.SalesOrderItem;
+import core.reports.FontFactory;
+import core.reports.TransactionReportGenerator;
+import core.service.transaction.SalesOrderService;
 
 @Component
 @PropertySource(value = { "classpath:application.properties" })
-public class PurchaseOrderReportGenerator extends TransactionReportGenerator {
+public class SalesOrderReportGenerator extends TransactionReportGenerator {
 
-	public static final String TYPE = "purchaseOrder"; 
+	public static final String TYPE = "salesOrder"; 
 	
-	@Autowired private PurchaseOrderService purchaseOrderService;
+	@Autowired private SalesOrderService salesOrderService;
 	@Autowired private Environment environment;
 	
 	@Override
 	protected void addBody(PdfWriter writer, Document document) throws DocumentException {
 		String documentNo = (String) getValue("documentNo");
-		PurchaseOrder purchaseOrder = purchaseOrderService.findByDocumentNo(documentNo);
+		SalesOrder salesOrder = salesOrderService.findByDocumentNo(documentNo);
 		
-		addTransactionDetails(document, purchaseOrder);
-        addItems(document, purchaseOrder);
-        addTotals(document, purchaseOrder);
-        addSignatureSlots(document, purchaseOrder);
+		addTransactionDetails(document, salesOrder);
+        addItems(document, salesOrder);
+        addTotals(document, salesOrder);
+        addSignatureSlots(document, salesOrder);
 	}
 
-	private void addTransactionDetails(Document document, PurchaseOrder purchaseOrder)
+	private void addTransactionDetails(Document document, SalesOrder salesOrder)
 			throws DocumentException {
-		Supplier supplier = purchaseOrder.getSupplier();
+		Customer customer = salesOrder.getCustomer();
 	
 		PdfPTable table = new PdfPTable(4);
 		table.setWidthPercentage(90);
 
-        PdfPCell soldTo = createCell("SUPPLIER: " + nullSafe(supplier.getDisplayString()));
+        PdfPCell soldTo = createCell("SOLD TO: " + nullSafe(customer.getDisplayString()));
         soldTo.setColspan(3);
         table.addCell(soldTo);
         
-        PdfPCell terms = createCell("TERMS: " + nullSafe(supplier.getTerms()));
+        PdfPCell terms = createCell("TERMS: " + nullSafe(customer.getTerms()));
         table.addCell(terms);
         
-        PdfPCell address = createCell("ADDRESS: " + nullSafe(supplier.getAddress()));
+        PdfPCell address = createCell("ADDRESS: " + nullSafe(customer.getAddress()));
         address.setColspan(3);
         table.addCell(address);
         
-        table.addCell(createCell("PO. NO.: " + nullSafe(purchaseOrder.getDocumentNo())));
+        table.addCell(createCell("PO. NO.: " + nullSafe(salesOrder.getDocumentNo())));
         
-        PdfPCell contactNo = createCell("TEL/CEL: " + nullSafe(supplier.getContact()));
+        PdfPCell contactNo = createCell("TEL/CEL: " + nullSafe(customer.getContact()));
         contactNo.setColspan(2);
         table.addCell(contactNo);
 
-        PdfPCell tinNo = createCell("TIN: " + nullSafe(supplier.getTin()));
-        tinNo.setColspan(2);
-        table.addCell(tinNo);
+        table.addCell(createCell("TIN: " + nullSafe(customer.getTin())));
+        table.addCell(createCell("SALESMAN: " + nullSafe(salesOrder.getAgent().getDisplayString())));
         
         document.add(table);
 	}
 
-	private void addItems(Document document, PurchaseOrder purchaseOrder) throws DocumentException {
+	private void addItems(Document document, SalesOrder salesOrder) throws DocumentException {
 		PdfPTable table = new PdfPTable(6);
 		table.setWidthPercentage(90);
 		
@@ -83,10 +84,10 @@ public class PurchaseOrderReportGenerator extends TransactionReportGenerator {
         table.addCell(createCellHeader("UNIT"));
         table.addCell(createCellHeader("DESCRIPTION"));
         table.addCell(createCellHeader("DISC"));
-        table.addCell(createCellHeader("UNIT COST"));
+        table.addCell(createCellHeader("UNIT PRICE"));
         table.addCell(createCellHeader("AMOUNT"));
 
-        for (PurchaseOrderItem item : purchaseOrder.getItems()) {
+        for (SalesOrderItem item : salesOrder.getItems()) {
         	Stock stock = item.getStock();
         	table.addCell(createItemCell(item.getQuantity()));
             table.addCell(createItemCell(stock.getUnit().getDisplayString()));
@@ -114,14 +115,14 @@ public class PurchaseOrderReportGenerator extends TransactionReportGenerator {
         document.add(table);
 	}
 	
-	private void addTotals(Document document, PurchaseOrder purchaseOrder) throws DocumentException {
+	private void addTotals(Document document, SalesOrder salesOrder) throws DocumentException {
 		PdfPTable table = new PdfPTable(2);
 		table.setWidthPercentage(90);
 		
 		table.setTotalWidth(new float[]{ 430.5f, 105 });
 		table.setLockedWidth(true);
 		
-		PdfPCell remarks = createCell("REMARKS: " + nullSafe(purchaseOrder.getRemarks()));
+		PdfPCell remarks = createCell("REMARKS: " + nullSafe(salesOrder.getRemarks()));
 		remarks.setRowspan(2);
         table.addCell(remarks);
         
@@ -132,7 +133,8 @@ public class PurchaseOrderReportGenerator extends TransactionReportGenerator {
         totalLabel.setVerticalAlignment(Element.ALIGN_BOTTOM);
         table.addCell(totalLabel);
         
-        PdfPCell totalAmount = createCell(purchaseOrder.getAmount(), FontFactory.C12B);
+        
+        PdfPCell totalAmount = createCell(salesOrder.getAmount(), FontFactory.C12B);
         totalAmount.setFixedHeight(27f);
         totalAmount.setVerticalAlignment(Element.ALIGN_TOP);
         totalAmount.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -142,7 +144,7 @@ public class PurchaseOrderReportGenerator extends TransactionReportGenerator {
         document.add(table);
 	}
 	
-	private void addSignatureSlots(Document document, PurchaseOrder purchaseOrder) throws DocumentException {
+	private void addSignatureSlots(Document document, SalesOrder salesOrder) throws DocumentException {
 		PdfPTable table = new PdfPTable(5);
 		table.setWidthPercentage(90);
 		

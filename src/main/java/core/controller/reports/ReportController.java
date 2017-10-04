@@ -21,11 +21,12 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import core.reports.CounterReceiptReportGenerator;
-import core.reports.PurchaseOrderReportGenerator;
 import core.reports.ReportData;
 import core.reports.ReportGenerator;
-import core.reports.SalesOrderReportGenerator;
+import core.reports.generator.CounterReceiptReportGenerator;
+import core.reports.generator.PurchaseOrderReportGenerator;
+import core.reports.generator.SalesOrderReportGenerator;
+import core.reports.generator.TransactionListReportGenerator;
 
 @CrossOrigin
 @RestController
@@ -37,6 +38,8 @@ public class ReportController {
 	@Autowired private PurchaseOrderReportGenerator purchaseOrderReportGenerator;
 	@Autowired private SalesOrderReportGenerator salesOrderReportGenerator;
 	@Autowired private CounterReceiptReportGenerator counterReceiptReportGenerator;
+	
+	@Autowired private TransactionListReportGenerator transactionListReportGenerator;
 
 	@PostConstruct
 	public void initialize() {
@@ -44,6 +47,7 @@ public class ReportController {
 		registry.put(PurchaseOrderReportGenerator.TYPE, purchaseOrderReportGenerator);
 		registry.put(SalesOrderReportGenerator.TYPE, salesOrderReportGenerator);
 		registry.put(CounterReceiptReportGenerator.TYPE, counterReceiptReportGenerator);
+		registry.put(TransactionListReportGenerator.TYPE, transactionListReportGenerator);
 	}
 
 	@RequestMapping(value = "reports/{type}", method = RequestMethod.POST)
