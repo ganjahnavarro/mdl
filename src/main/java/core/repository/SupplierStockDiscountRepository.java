@@ -7,14 +7,14 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import core.model.CustomerDiscount;
+import core.model.SupplierStockDiscount;
 
 @Repository
 @Transactional
-public class CustomerDiscountRepository extends AbstractRepository<CustomerDiscount> {
+public class SupplierStockDiscountRepository extends AbstractRepository<SupplierStockDiscount> {
 	
 	@SuppressWarnings("unchecked")
-	public List<CustomerDiscount> findByCustomer(Long customerId) {
+	public List<SupplierStockDiscount> findByCustomer(Long customerId) {
 		Criteria criteria = getDefaultCriteria();
 		criteria.add(Restrictions.eq("customer.id", customerId));
 		return criteria.list();
@@ -22,7 +22,7 @@ public class CustomerDiscountRepository extends AbstractRepository<CustomerDisco
 	
 	@Override
 	protected String getEntityName() {
-		return CustomerDiscount.ENTITY_NAME;
+		return SupplierStockDiscount.ENTITY_NAME;
 	}
 
 }

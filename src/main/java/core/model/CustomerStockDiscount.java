@@ -8,17 +8,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-@Entity(name = CustomerDiscount.ENTITY_NAME)
-public class CustomerDiscount extends Record {
-
-	public static final String ENTITY_NAME = "customerDiscount";
-	private static final long serialVersionUID = 5311913162936040966L;
+@Entity(name = CustomerStockDiscount.ENTITY_NAME)
+public class CustomerStockDiscount extends Record {
+	
+	public static final String ENTITY_NAME = "customerStockDiscount";
+	private static final long serialVersionUID = -9084218672853783904L;
 	
 	private Customer customer;
-	private Supplier supplier;
+	private Stock stock;
+	
 	private BigDecimal discount1;
 	private BigDecimal discount2;
-
+	
 	@NotNull(message = "Customer is required")
 	@ManyToOne(targetEntity = Customer.class)
 	@JoinColumn(name = "customerId")
@@ -30,15 +31,15 @@ public class CustomerDiscount extends Record {
 		this.customer = customer;
 	}
 
-	@NotNull(message = "Supplier is required")
-	@ManyToOne(targetEntity = Supplier.class)
-	@JoinColumn(name = "supplierId")
-	public Supplier getSupplier() {
-		return supplier;
+	@NotNull(message = "Stock is required")
+	@ManyToOne(targetEntity = Stock.class)
+	@JoinColumn(name = "stockId")
+	public Stock getStock() {
+		return stock;
 	}
 
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
+	public void setStock(Stock stock) {
+		this.stock = stock;
 	}
 
 	public BigDecimal getDiscount1() {

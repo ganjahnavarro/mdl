@@ -1,5 +1,7 @@
 package core.reports.generator;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -47,6 +49,12 @@ public class SalesOrderReportGenerator extends TransactionReportGenerator {
 	
 		PdfPTable table = new PdfPTable(4);
 		table.setWidthPercentage(90);
+		
+		PdfPCell emptyCell = createCell("");
+		emptyCell.setColspan(3);
+		emptyCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(emptyCell);
+        table.addCell(createCell("DATE: " + DATE_FORMATTER.format(new Date())));
 
         PdfPCell soldTo = createCell("SOLD TO: " + nullSafe(customer.getDisplayString()));
         soldTo.setColspan(3);
@@ -59,52 +67,53 @@ public class SalesOrderReportGenerator extends TransactionReportGenerator {
         address.setColspan(3);
         table.addCell(address);
         
-        table.addCell(createCell("PO. NO.: " + nullSafe(salesOrder.getDocumentNo())));
+        table.addCell(createCell("SO. NO.: " + nullSafe(salesOrder.getDocumentNo())));
         
         PdfPCell contactNo = createCell("TEL/CEL: " + nullSafe(customer.getContact()));
         contactNo.setColspan(2);
         table.addCell(contactNo);
 
         table.addCell(createCell("TIN: " + nullSafe(customer.getTin())));
-        table.addCell(createCell("SALESMAN: " + nullSafe(salesOrder.getAgent().getDisplayString())));
+        String agent = salesOrder.getAgent() != null ? salesOrder.getAgent().getDisplayString() : null;
+        table.addCell(createCell("SALESMAN: " + nullSafe(agent)));
         
         document.add(table);
 	}
 
 	private void addItems(Document document, SalesOrder salesOrder) throws DocumentException {
-		PdfPTable table = new PdfPTable(6);
+		PdfPTable table = new PdfPTable(7);
 		table.setWidthPercentage(90);
 		
-		table.setTotalWidth(new float[]{ 32.5f, 40, 298, 40, 60f, 65f });
+		table.setTotalWidth(new float[]{ 32.5f, 40, 230, 48, 60, 60, 65 });
 		table.setLockedWidth(true);
 		
-		float itemsHeight = 580;
+		float itemsHeight = 570;
 		
 		table.addCell(createCellHeader("QTY"));
         table.addCell(createCellHeader("UNIT"));
         table.addCell(createCellHeader("DESCRIPTION"));
         table.addCell(createCellHeader("DISC"));
-        table.addCell(createCellHeader("UNIT PRICE"));
+        table.addCell(createCellHeader("GROSS"));
+        table.addCell(createCellHeader("NET"));
         table.addCell(createCellHeader("AMOUNT"));
 
         for (SalesOrderItem item : salesOrder.getItems()) {
         	Stock stock = item.getStock();
         	table.addCell(createItemCell(item.getQuantity()));
             table.addCell(createItemCell(stock.getUnit().getDisplayString()));
-            table.addCell(createItemCell(stock.getDisplayString()));
             
-            Object discount = item.getDiscount1() != null ? item.getDiscount1() : "NET";
-            PdfPCell discountCell = createItemCell(discount);
-            discountCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            table.addCell(discountCell);
+            table.addCell(createStockCell(stock));
+            table.addCell(createDiscountCell(item.getDiscount1(), item.getDiscount2()));
             
-            table.addCell(createItemCell(item.getPrice()));
+            table.addCell(createItemCell(item.getGrossAmount()));
+            table.addCell(createItemCell(item.getNetAmount()));
             table.addCell(createItemCell(item.getAmount()));
         }
         
         float remainingHeight = itemsHeight - table.getTotalHeight();
         PdfPCell dummy = createItemCell(null);
         dummy.setFixedHeight(remainingHeight);
+        table.addCell(dummy);
         table.addCell(dummy);
         table.addCell(dummy);
         table.addCell(dummy);

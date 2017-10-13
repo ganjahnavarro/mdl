@@ -106,20 +106,28 @@ public class PurchaseOrderItem implements Serializable {
 	public void setDiscount3(BigDecimal discount3) {
 		this.discount3 = discount3;
 	}
-
+	
 	@Transient
-	public BigDecimal getAmount() {
+	public BigDecimal getGrossAmount() {
+		return getPrice();
+	}
+	
+	@Transient
+	public BigDecimal getNetAmount() {
 		BigDecimal amount = getPrice();
-		
 		amount = getDiscount1() != null ? getDiscountedAmount(amount, getDiscount1()) : amount;
 		amount = getDiscount2() != null ? getDiscountedAmount(amount, getDiscount2()) : amount;
 		amount = getDiscount3() != null ? getDiscountedAmount(amount, getDiscount3()) : amount;
-		
-		return amount
+		return amount;
+	}
+	
+	@Transient
+	public BigDecimal getAmount() {
+		return getNetAmount()
 				.multiply(BigDecimal.valueOf(getQuantity()))
 				.setScale(2, RoundingMode.HALF_UP);
 	}
-	
+
 	@Transient
 	private BigDecimal getDiscountedAmount(BigDecimal amount, BigDecimal discount) {
 		RoundingMode roundingMode = RoundingMode.HALF_UP;

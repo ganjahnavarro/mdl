@@ -98,13 +98,21 @@ public class SalesOrderItem implements Serializable {
 	}
 	
 	@Transient
-	public BigDecimal getAmount() {
+	public BigDecimal getGrossAmount() {
+		return getPrice();
+	}
+	
+	@Transient
+	public BigDecimal getNetAmount() {
 		BigDecimal amount = getPrice();
-		
 		amount = getDiscount1() != null ? getDiscountedAmount(amount, getDiscount1()) : amount;
 		amount = getDiscount2() != null ? getDiscountedAmount(amount, getDiscount2()) : amount;
-		
-		return amount
+		return amount;
+	}
+	
+	@Transient
+	public BigDecimal getAmount() {
+		return getNetAmount()
 				.multiply(BigDecimal.valueOf(getQuantity()))
 				.setScale(2, RoundingMode.HALF_UP);
 	}

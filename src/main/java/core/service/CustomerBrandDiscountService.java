@@ -7,15 +7,15 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import core.model.CustomerDiscount;
+import core.model.CustomerBrandDiscount;
 import core.repository.AbstractRepository;
-import core.repository.CustomerDiscountRepository;
+import core.repository.CustomerBrandDiscountRepository;
 
 @Service
 @Transactional
-public class CustomerDiscountService extends AbstractService {
+public class CustomerBrandDiscountService extends AbstractService {
 
-	@Autowired private CustomerDiscountRepository repository;
+	@Autowired private CustomerBrandDiscountRepository repository;
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -23,7 +23,7 @@ public class CustomerDiscountService extends AbstractService {
 		return repository;
 	}
 	
-	public List<CustomerDiscount> findByCustomer(Long customerId) {
+	public List<CustomerBrandDiscount> findByCustomer(Long customerId) {
 		return repository.findByCustomer(customerId);
 	}
 	

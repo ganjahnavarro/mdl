@@ -30,6 +30,8 @@ public class Stock extends Record {
 	
 	private Supplier supplier;
 
+	private Boolean shouldPrintName; 
+
 	@NotEmpty(message = "Name is required")
 	public String getName() {
 		return name;
@@ -119,6 +121,14 @@ public class Stock extends Record {
 
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
+	}
+
+	public Boolean getShouldPrintName() {
+		return shouldPrintName;
+	}
+
+	public void setShouldPrintName(Boolean shouldPrintName) {
+		this.shouldPrintName = shouldPrintName;
 	}
 
 	@Transient

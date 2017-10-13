@@ -12,6 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import core.model.IRecord;
 import core.model.transaction.SalesOrder;
 import core.repository.AbstractRepository;
 
@@ -86,6 +87,25 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
 		SalesOrder salesOrder = (SalesOrder) criteria.uniqueResult();
 		initializeSalesOrder(salesOrder);
 		return salesOrder;
+	}
+	
+	public SalesOrder findLatestSalesOrder() {
+		Criteria criteria = getDefaultCriteria();
+		criteria.addOrder(Order.desc("id"));
+		criteria.setMaxResults(1);
+		return (SalesOrder) criteria.uniqueResult();
+	}
+	
+	@Override
+	protected void preProcess(IRecord record) {
+		SalesOrder purchaseOrder = (SalesOrder) record;
+		super.preProcess(record);
+		
+		if (purchaseOrder.getDocumentNo() == null) {
+			SalesOrder latest = findLatestSalesOrder();
+			Long latestDocumentNo = latest != null ? Long.valueOf(latest.getDocumentNo()) : 0;
+			purchaseOrder.setDocumentNo(String.valueOf(latestDocumentNo + 1));
+		}
 	}
 	
 	private void initializeSalesOrder(SalesOrder salesOrder) {

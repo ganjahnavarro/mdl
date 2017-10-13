@@ -55,7 +55,6 @@ public class SalesOrder extends Record {
 		this.customer = customer;
 	}
 
-	@NotNull(message = "Agent is required")
 	@ManyToOne(targetEntity = Agent.class)
 	@JoinColumn(name = "agentId")
 	public Agent getAgent() {

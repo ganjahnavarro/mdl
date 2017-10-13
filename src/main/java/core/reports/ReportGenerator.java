@@ -27,6 +27,7 @@ public abstract class ReportGenerator {
 	
 	protected final Format AMOUNT_FORMATTER = new DecimalFormat("#,##0.00"); 
 	protected final DateFormat DATE_FORMATTER = new SimpleDateFormat("MM/dd/yyyy");
+	protected final Format DISCOUNT_FORMATTER = new DecimalFormat("#,##0.##");
 	
 	protected abstract void addBody(PdfWriter writer, Document document) throws DocumentException, ParseException;
 	protected abstract Environment getEnvironment();
@@ -74,12 +75,15 @@ public abstract class ReportGenerator {
 			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		}
 		
+		addCellPadding(cell);
+		return cell;
+	}
+	
+	protected void addCellPadding(PdfPCell cell) {
 		cell.setPaddingTop(2);
 		cell.setPaddingRight(5);
 		cell.setPaddingBottom(6);
 		cell.setPaddingLeft(5);
-		
-		return cell;
 	}
 	
 	protected String nullSafe(Object value) {

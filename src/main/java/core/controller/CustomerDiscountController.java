@@ -10,35 +10,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import core.dto.CustomerDiscountData;
-import core.dto.mapper.CustomerDiscountMapper;
-import core.model.CustomerDiscount;
-import core.service.CustomerDiscountService;
+import core.dto.CustomerBrandDiscountData;
+import core.dto.mapper.CustomerBrandDiscountMapper;
+import core.model.CustomerBrandDiscount;
+import core.service.CustomerBrandDiscountService;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/customerDiscount")
 public class CustomerDiscountController {
 	
-	@Autowired private CustomerDiscountService service;
+	@Autowired private CustomerBrandDiscountService service;
 	
-	private CustomerDiscountMapper MAPPER = CustomerDiscountMapper.INSTANCE;
+	private CustomerBrandDiscountMapper MAPPER = CustomerBrandDiscountMapper.INSTANCE;
 	
 	@RequestMapping(value = "/{customerId}", method = RequestMethod.GET)
-    public List<CustomerDiscountData> list(@PathVariable Long customerId) {
+    public List<CustomerBrandDiscountData> list(@PathVariable Long customerId) {
 		return MAPPER.toData(service.findByCustomer(customerId));
     }
 	
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-    public CustomerDiscountData create(@RequestBody CustomerDiscountData customerDiscountData) {
-		CustomerDiscount customerDiscount = MAPPER.fromData(customerDiscountData);
-		return MAPPER.toData((CustomerDiscount) service.save(customerDiscount));
+    public CustomerBrandDiscountData create(@RequestBody CustomerBrandDiscountData customerDiscountData) {
+		CustomerBrandDiscount customerDiscount = MAPPER.fromData(customerDiscountData);
+		return MAPPER.toData((CustomerBrandDiscount) service.save(customerDiscount));
     }
 	
 	@RequestMapping(value = "/", method = RequestMethod.PATCH)
-    public CustomerDiscountData update(@RequestBody CustomerDiscountData customerDiscountData) {
-		CustomerDiscount customerDiscount = MAPPER.fromData(customerDiscountData);
-		return MAPPER.toData((CustomerDiscount) service.update(customerDiscount));
+    public CustomerBrandDiscountData update(@RequestBody CustomerBrandDiscountData customerDiscountData) {
+		CustomerBrandDiscount customerDiscount = MAPPER.fromData(customerDiscountData);
+		return MAPPER.toData((CustomerBrandDiscount) service.update(customerDiscount));
     }
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

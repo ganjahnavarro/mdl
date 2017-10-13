@@ -1,5 +1,7 @@
 package core.reports.generator;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -47,6 +49,12 @@ public class PurchaseOrderReportGenerator extends TransactionReportGenerator {
 	
 		PdfPTable table = new PdfPTable(4);
 		table.setWidthPercentage(90);
+		
+		PdfPCell emptyCell = createCell("");
+		emptyCell.setColspan(3);
+		emptyCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(emptyCell);
+        table.addCell(createCell("DATE: " + DATE_FORMATTER.format(new Date())));
 
         PdfPCell soldTo = createCell("SUPPLIER: " + nullSafe(supplier.getDisplayString()));
         soldTo.setColspan(3);
@@ -76,28 +84,25 @@ public class PurchaseOrderReportGenerator extends TransactionReportGenerator {
 		PdfPTable table = new PdfPTable(6);
 		table.setWidthPercentage(90);
 		
-		table.setTotalWidth(new float[]{ 32.5f, 40, 298, 40, 60f, 65f });
+		table.setTotalWidth(new float[]{ 32.5f, 40, 290, 48, 60f, 65f });
 		table.setLockedWidth(true);
 		
-		float itemsHeight = 580;
+		float itemsHeight = 570;
 		
 		table.addCell(createCellHeader("QTY"));
         table.addCell(createCellHeader("UNIT"));
         table.addCell(createCellHeader("DESCRIPTION"));
         table.addCell(createCellHeader("DISC"));
-        table.addCell(createCellHeader("UNIT COST"));
+        table.addCell(createCellHeader("GROSS"));
         table.addCell(createCellHeader("AMOUNT"));
-
+        
         for (PurchaseOrderItem item : purchaseOrder.getItems()) {
         	Stock stock = item.getStock();
         	table.addCell(createItemCell(item.getQuantity()));
             table.addCell(createItemCell(stock.getUnit().getDisplayString()));
-            table.addCell(createItemCell(stock.getDisplayString()));
             
-            Object discount = item.getDiscount1() != null ? item.getDiscount1() : "NET";
-            PdfPCell discountCell = createItemCell(discount);
-            discountCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            table.addCell(discountCell);
+            table.addCell(createStockCell(stock));
+            table.addCell(createDiscountCell(item.getDiscount1(), item.getDiscount2()));
             
             table.addCell(createItemCell(item.getPrice()));
             table.addCell(createItemCell(item.getAmount()));
@@ -115,7 +120,7 @@ public class PurchaseOrderReportGenerator extends TransactionReportGenerator {
         
         document.add(table);
 	}
-	
+
 	private void addTotals(Document document, PurchaseOrder purchaseOrder) throws DocumentException {
 		PdfPTable table = new PdfPTable(2);
 		table.setWidthPercentage(90);

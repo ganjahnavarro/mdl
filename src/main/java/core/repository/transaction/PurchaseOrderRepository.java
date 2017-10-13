@@ -12,6 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import core.model.IRecord;
 import core.model.transaction.PurchaseOrder;
 import core.repository.AbstractRepository;
 
@@ -86,6 +87,25 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
 		PurchaseOrder purchaseOrder = (PurchaseOrder) criteria.uniqueResult();
 		initializePurchaseOrder(purchaseOrder);
 		return purchaseOrder;
+	}
+	
+	public PurchaseOrder findLatestPurchaseOrder() {
+		Criteria criteria = getDefaultCriteria();
+		criteria.addOrder(Order.desc("id"));
+		criteria.setMaxResults(1);
+		return (PurchaseOrder) criteria.uniqueResult();
+	}
+	
+	@Override
+	protected void preProcess(IRecord record) {
+		PurchaseOrder purchaseOrder = (PurchaseOrder) record;
+		super.preProcess(record);
+		
+		if (purchaseOrder.getDocumentNo() == null) {
+			PurchaseOrder latest = findLatestPurchaseOrder();
+			Long latestDocumentNo = latest != null ? Long.valueOf(latest.getDocumentNo()) : 0;
+			purchaseOrder.setDocumentNo(String.valueOf(latestDocumentNo + 1));
+		}
 	}
 	
 	private void initializePurchaseOrder(PurchaseOrder purchaseOrder) {
