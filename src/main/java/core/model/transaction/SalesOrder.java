@@ -16,15 +16,27 @@ import javax.validation.constraints.NotNull;
 import core.model.Agent;
 import core.model.Customer;
 import core.model.Record;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity(name = SalesOrder.ENTITY_NAME)
 public class SalesOrder extends Record {
 
 	public static final String ENTITY_NAME = "salesOrder";
 	private static final long serialVersionUID = 1044962260130248646L;
 	
+	@NotNull(message = "Document No. is required")
 	private String documentNo;
+	
+	@NotNull(message = "Customer is required")
+	@ManyToOne(targetEntity = Customer.class)
+	@JoinColumn(name = "customerId")
 	private Customer customer;
+	
+	@ManyToOne(targetEntity = Agent.class)
+	@JoinColumn(name = "agentId")
 	private Agent agent;
 
 	private Date date;
@@ -33,79 +45,9 @@ public class SalesOrder extends Record {
 	private BigDecimal discount1;
 	private BigDecimal discount2;
 
+	@OneToMany(targetEntity = SalesOrderItem.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "salesOrder", orphanRemoval = true)
 	private Set<SalesOrderItem> items;
 	
-	@NotNull(message = "Document No. is required")
-	public String getDocumentNo() {
-		return documentNo;
-	}
-
-	public void setDocumentNo(String documentNo) {
-		this.documentNo = documentNo;
-	}
-
-	@NotNull(message = "Customer is required")
-	@ManyToOne(targetEntity = Customer.class)
-	@JoinColumn(name = "customerId")
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	@ManyToOne(targetEntity = Agent.class)
-	@JoinColumn(name = "agentId")
-	public Agent getAgent() {
-		return agent;
-	}
-
-	public void setAgent(Agent agent) {
-		this.agent = agent;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public String getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
-
-	public BigDecimal getDiscount1() {
-		return discount1;
-	}
-
-	public void setDiscount1(BigDecimal discount1) {
-		this.discount1 = discount1;
-	}
-
-	public BigDecimal getDiscount2() {
-		return discount2;
-	}
-
-	public void setDiscount2(BigDecimal discount2) {
-		this.discount2 = discount2;
-	}
-	
-	@OneToMany(targetEntity = SalesOrderItem.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "salesOrder", orphanRemoval = true)
-	public Set<SalesOrderItem> getItems() {
-		return items;
-	}
-
-	public void setItems(Set<SalesOrderItem> items) {
-		this.items = items;
-	}
-
 	@Transient
 	@Override
 	public String getDisplayString() {

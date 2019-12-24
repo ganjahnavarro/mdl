@@ -10,65 +10,30 @@ import javax.validation.constraints.NotNull;
 
 import core.model.Record;
 import core.model.Supplier;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity(name = SupplierPayment.ENTITY_NAME)
 public class SupplierPayment extends Record {
 
 	public static final String ENTITY_NAME = "supplierPayment";
 	private static final long serialVersionUID = 5000775941337882357L;
 
-	private String documentNo;
-	private Supplier supplier;
-
-	private Date date;
-	private String remarks;
-
-	private String bank;
-
 	@NotNull(message = "Document No. is required")
-	public String getDocumentNo() {
-		return documentNo;
-	}
-
-	public void setDocumentNo(String documentNo) {
-		this.documentNo = documentNo;
-	}
-
+	private String documentNo;
+	
 	@NotNull(message = "Supplier is required")
 	@ManyToOne(targetEntity = Supplier.class)
 	@JoinColumn(name = "supplierId")
-	public Supplier getSupplier() {
-		return supplier;
-	}
-
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
-	}
+	private Supplier supplier;
 
 	@NotNull(message = "Date is required")
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public String getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
-
-	public String getBank() {
-		return bank;
-	}
-
-	public void setBank(String bank) {
-		this.bank = bank;
-	}
+	private Date date;
+	
+	private String remarks;
+	private String bank;
 
 	@Transient
 	@Override

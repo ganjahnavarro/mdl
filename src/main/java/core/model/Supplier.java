@@ -1,74 +1,35 @@
 package core.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity(name = Supplier.ENTITY_NAME)
 public class Supplier extends Record {
 
 	public static final String ENTITY_NAME = "supplier";
 	private static final long serialVersionUID = -7699458379737469434L;
 
+	@NotEmpty(message = "Name is required")
 	private String name;
+	
+	@Column(columnDefinition = "text")
 	private String address;
+	
 	private String contact;
 	private String fax;
 	private String tin;
 	
 	private String terms;
-
-	@NotEmpty(message = "Name is required")
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Column(columnDefinition = "text")
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getContact() {
-		return contact;
-	}
-
-	public void setContact(String contact) {
-		this.contact = contact;
-	}
-
-	public String getFax() {
-		return fax;
-	}
-
-	public void setFax(String fax) {
-		this.fax = fax;
-	}
-
-	public String getTin() {
-		return tin;
-	}
-
-	public void setTin(String tin) {
-		this.tin = tin;
-	}
-	
-	public String getTerms() {
-		return terms;
-	}
-
-	public void setTerms(String terms) {
-		this.terms = terms;
-	}
 
 	@Transient
 	@Override
