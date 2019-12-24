@@ -9,6 +9,7 @@
 		<springframework.version>4.2.4.RELEASE</springframework.version>
 		<hibernate.version>4.3.6.Final</hibernate.version>
 		<org.mapstruct.version>1.1.0.Final</org.mapstruct.version>
+		<org.projectlombok.version>1.18.10</org.projectlombok.version>
 		<core.version>0.0.1</core.version>
 	</properties>
 
@@ -176,6 +177,12 @@
 	        <artifactId>mapstruct-jdk8</artifactId>
 	        <version>${org.mapstruct.version}</version>
 	    </dependency>
+	    
+	    <dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${org.projectlombok.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -188,7 +195,7 @@
 						<phase>package</phase>
 						<configuration>
 							<tasks>
-								<copy file="${basedir}/target/mdl.war" todir="D:/Program Files/Wildfly 10.1.0.Final/standalone/deployments/" />
+								<copy file="${basedir}/target/mdl.war" todir="/opt/wildfly-11.0.0.Final/standalone/deployments/" />
 							</tasks>
 						</configuration>
 						<goals>
@@ -209,6 +216,11 @@
 						<source>1.8</source>
 						<target>1.8</target>
 						<annotationProcessorPaths>
+							<path>
+				                <groupId>org.projectlombok</groupId>
+				                <artifactId>lombok</artifactId>
+				                <version>${org.projectlombok.version}</version>
+				            </path>
 		                    <path>
 		                        <groupId>org.mapstruct</groupId>
 		                        <artifactId>mapstruct-processor</artifactId>
