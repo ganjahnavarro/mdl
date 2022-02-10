@@ -7,7 +7,7 @@
 
 	<properties>
 		<springframework.version>5.2.7.RELEASE</springframework.version>
-		<hibernate.version>4.3.6.Final</hibernate.version>
+		<hibernate.version>5.4.24.Final</hibernate.version>
 		<org.mapstruct.version>1.1.0.Final</org.mapstruct.version>
 		<org.projectlombok.version>1.18.10</org.projectlombok.version>
 		<core.version>0.0.1</core.version>
